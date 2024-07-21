@@ -35,6 +35,7 @@
 		F79C04A12C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F79C049F2C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld */; };
 		F79C04A32C4C415C000DFB62 /* DataPersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79C04A22C4C415C000DFB62 /* DataPersistenceManager.swift */; };
 		F79C04C42C4C43D3000DFB62 /* CartItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79C04C32C4C43D3000DFB62 /* CartItemModel.swift */; };
+		F7CBC37A2C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7CBC3782C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		F79C04A02C4C406A000DFB62 /* OnlineStoreCloneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OnlineStoreCloneModel.xcdatamodel; sourceTree = "<group>"; };
 		F79C04A22C4C415C000DFB62 /* DataPersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistenceManager.swift; sourceTree = "<group>"; };
 		F79C04C32C4C43D3000DFB62 /* CartItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemModel.swift; sourceTree = "<group>"; };
+		F7CBC3792C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PurchaseHistoryDataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				F79C04772C4B7377000DFB62 /* Preview Content */,
 				F79C049F2C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld */,
 				F77F8D082C4C472200C10F10 /* FavoriteItemDataModel.xcdatamodeld */,
+				F7CBC3782C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld */,
 			);
 			path = OnlineStoreClone;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				F79C04842C4B73A4000DFB62 /* HomeView.swift in Sources */,
 				F79C04C42C4C43D3000DFB62 /* CartItemModel.swift in Sources */,
 				F77F8D0A2C4C472200C10F10 /* FavoriteItemDataModel.xcdatamodeld in Sources */,
+				F7CBC37A2C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld in Sources */,
 				F79C049C2C4B7DC3000DFB62 /* StarRatingView.swift in Sources */,
 				F79C04722C4B7375000DFB62 /* OnlineStoreCloneApp.swift in Sources */,
 				F79C04A12C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld in Sources */,
@@ -548,6 +552,17 @@
 			);
 			currentVersion = F79C04A02C4C406A000DFB62 /* OnlineStoreCloneModel.xcdatamodel */;
 			path = CartItemDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		F7CBC3782C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F7CBC3792C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodel */,
+			);
+			currentVersion = F7CBC3792C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodel */;
+			name = PurchaseHistoryDataModel.xcdatamodeld;
+			path = "/Users/jonrelbaclayon/Desktop/Github-Desktop/MobileShopClone/OnlineStoreClone/OnlineStoreClone/OnlineStoreClone/PurchaseHistoryDataModel.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

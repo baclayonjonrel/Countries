@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 struct ProfileView: View {
     
     @State private var purchaseHistory: [CartItem] = [CartItem]()
+    @State private var isFetching: Bool = true
     
     var body: some View {
         VStack {
@@ -61,26 +62,31 @@ struct ProfileView: View {
                     Text("Personal information")
                 }
                 Section {
-                    ScrollView {
-                        ForEach(purchaseHistory.indices, id: \.self) { item in
-                            HStack {
-                                WebImage(url: URL(string: purchaseHistory[item].image))
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                VStack {
-                                    Text(purchaseHistory[item].title)
-                                        .font(.system(size: 10))
-                                        .multilineTextAlignment(.leading)
-                                    Text(PriceFormatter.shared.format(price: purchaseHistory[item].price))
+                    if !isFetching {
+                        ScrollView {
+                            ForEach(purchaseHistory.indices, id: \.self) { item in
+                                HStack {
+                                    WebImage(url: URL(string: purchaseHistory[item].image))
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                    VStack {
+                                        Text(purchaseHistory[item].title)
+                                            .font(.system(size: 10))
+                                            .multilineTextAlignment(.leading)
+                                        Text(PriceFormatter.shared.format(price: purchaseHistory[item].price))
+                                            .font(.system(size: 10))
+                                            .multilineTextAlignment(.leading)
+                                    }
+                                    Spacer()
+                                    Text("Quantity: \(purchaseHistory[item].quantity ?? 1)")
                                         .font(.system(size: 10))
                                         .multilineTextAlignment(.leading)
                                 }
-                                Spacer()
-                                Text("Quantity: \(purchaseHistory[item].quantity ?? 1)")
-                                    .font(.system(size: 10))
-                                    .multilineTextAlignment(.leading)
                             }
                         }
+                    } else {
+                        ProgressView()
+                            .frame(width: 200, height: 200)
                     }
                 } header: {
                     Text("Purchase History")
@@ -88,16 +94,15 @@ struct ProfileView: View {
             }
             
             Spacer()
-            
-            
-            
         }
         .padding(.top, 40)
         .onAppear {
-            DataPersistenceManager.shared.fetchCartItems { result in
+            DataPersistenceManager.shared.fetchHistoryItems { result in
                 switch result {
                 case .success(let history):
                     purchaseHistory = history
+                    isFetching = false
+                    print("fetched purchased history \(purchaseHistory.count)")
                 case .failure(let failure):
                     print("Failed: \(failure)")
                 }

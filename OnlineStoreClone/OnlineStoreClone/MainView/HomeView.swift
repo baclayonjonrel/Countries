@@ -12,12 +12,12 @@ struct HomeView: View {
     private let categories = ["All", "Jewelery", "Electronics", "Men's Clothing", "Women's Clothing"]
     @State private var selectedIndex = 0
     @State private var isFetching: Bool = true
+    @State private var isSearching: Bool = false
     @State private var categorizedProducts: [[Product]] = Array(repeating: [], count: 5)
-    
     @State private var searchText: String = ""
     @State private var showCartView: Bool = false
-    
     @State private var itemsSavedToCart = [CartItem]()
+    @State private var filteredProducts: [[Product]] = Array(repeating: [], count: 5)
     
     var body: some View {
         VStack {
@@ -39,24 +39,10 @@ struct HomeView: View {
                 }
                 Divider()
             if !isFetching {
-                ScrollView {
-                    ForEach(1 ..< categories.count, id: \.self) { item in
-                        ProductScrollView(products: categorizedProducts[item],categoryName: categories[item]) { returnCategory in
-                            switch returnCategory {
-                            case "Jewelery":
-                                selectedIndex = 1
-                            case "Electronics":
-                                selectedIndex = 2
-                            case "Men's Clothing":
-                                selectedIndex = 3
-                            case "Women's Clothing":
-                                selectedIndex = 4
-                            default:
-                                selectedIndex = 0
-                            }
-                        }
-                        
-                    }
+                if !isSearching {
+                    ProductCategoryScrollView(selectedIndex: $selectedIndex, categories: categories, categorizedProducts: categorizedProducts)
+                } else {
+                    ProductCategoryScrollView(selectedIndex: $selectedIndex, categories: categories, categorizedProducts: filteredProducts)
                 }
             } else {
                 HStack {
@@ -101,6 +87,16 @@ struct HomeView: View {
         })
         .onChange(of: searchText) {
             print(searchText)
+            if !searchText.isEmpty {
+                isSearching = true
+                filteredProducts = categorizedProducts.map { category in
+                    category.filter { product in
+                        product.title.lowercased().contains(searchText.lowercased())
+                    }
+                }
+            } else {
+                isSearching = false
+            }
         }
         .task {
             APICaller.shared.getAllProducts { res in
@@ -137,6 +133,57 @@ struct HomeView: View {
     }
 }
 
+struct ProductCategoryScrollView: View {
+    
+    @Binding var selectedIndex: Int
+    let categories: [String]
+    let categorizedProducts: [[Product]]
+    
+    var body: some View {
+        ScrollView {
+            if selectedIndex == 0 {
+                ForEach(1 ..< categories.count, id: \.self) { item in
+                    if !categorizedProducts[item].isEmpty {
+                        ProductScrollView(products: categorizedProducts[item],categoryName: categories[item]) { returnCategory in
+                            switch returnCategory {
+                            case "Jewelery":
+                                selectedIndex = 1
+                            case "Electronics":
+                                selectedIndex = 2
+                            case "Men's Clothing":
+                                selectedIndex = 3
+                            case "Women's Clothing":
+                                selectedIndex = 4
+                            default:
+                                selectedIndex = 0
+                            }
+                        }
+                    }
+                }
+            } else {
+                ForEach(0 ..< categories.count, id: \.self) { item in
+                    if item == selectedIndex {
+                        ProductScrollView(products: categorizedProducts[item], categoryName: categories[item]) { returnCategory in
+                            switch returnCategory {
+                            case "Jewelery":
+                                selectedIndex = 1
+                            case "Electronics":
+                                selectedIndex = 2
+                            case "Men's Clothing":
+                                selectedIndex = 3
+                            case "Women's Clothing":
+                                selectedIndex = 4
+                            default:
+                                selectedIndex = 0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct TagLineView: View {
     var body: some View {
         VStack {
@@ -160,10 +207,9 @@ struct CategoryView: View {
             Text(text)
                 .font(.system(size: 19))
                 .fontWeight(.medium)
-                .foregroundStyle(isActive ? .mint : .black.opacity(0.5) )
             
             if isActive {
-                Color.purple
+                Color.gray
                     .frame(width: 15, height: 2)
                     .clipShape(Capsule())
             }
@@ -217,18 +263,19 @@ struct ProductCardView: View {
             Text(product.title)
                 .font(.system(size: 15))
                 .lineLimit(2)
-                .fontWeight(.bold)
                 .fixedSize(horizontal: false, vertical: true)
+                .foregroundStyle(Color.black)
             HStack {
                 StarRatingView(rating: product.rating.rate)
                 Spacer()
                 Text(PriceFormatter.shared.format(price: product.price))
                     .font(.system(size: 13))
+                    .foregroundStyle(Color.black)
             }
         }
         .frame(width: 170)
         .padding(10)
-        .background(Color.mint.opacity(0.2))
+        .background(Color.gray.opacity(0.5))
         .cornerRadius(10)
     }
 }

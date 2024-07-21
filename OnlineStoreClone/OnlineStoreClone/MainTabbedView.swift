@@ -37,7 +37,6 @@ struct MainTabbedView: View {
                 }
                 .tag(2)
             }
-            .tint(.red)
         }
     }
 }

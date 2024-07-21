@@ -41,7 +41,15 @@ struct ProductDetailView: View {
                                     }
                                 }
                             } else {
-                                print("item already exist in db")
+                                DataPersistenceManager.shared.deleteFavoriteItem(item: selectedProduct) { result in
+                                    switch result {
+                                    case .success(let success):
+                                        print("removed from favorites")
+                                        addedToFavorites = false
+                                    case .failure(let failure):
+                                        print("failed to remove from favoirites")
+                                    }
+                                }
                             }
                         } label: {
                             Image(systemName: addedToFavorites ? "heart.fill" : "heart")

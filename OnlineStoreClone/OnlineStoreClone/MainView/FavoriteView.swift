@@ -12,11 +12,10 @@ struct FavoriteView: View {
     
     @State private var isFetching: Bool = true
     @State private var showLoading: Bool = false
-    
-    //temp
     @State private var favoriteProducts: [Product] = [Product]()
-    private let categories = ["All", "Jewelery", "Electronics", "Men's Clothing", "Women's Clothing"]
-    
+    @State private var searchText: String = ""
+    @State private var showCartView: Bool = false
+    @State private var itemsSavedToCart = [CartItem]()
     var body: some View {
         VStack {
             TagLineFavoriteView()
@@ -93,6 +92,42 @@ struct FavoriteView: View {
                     self.isFetching = false
                 case .failure(let failure):
                     print("failed to fetch products")
+                }
+            }
+        }
+        .navigationTitle("Favorites")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                SharedToolBarItem.userLogo()
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                SharedToolBarItem.CartView(showCartView: $showCartView, itemCount: $itemsSavedToCart.count)
+            }
+        }
+        .fullScreenCover(isPresented: $showCartView, content: {
+            CartView()
+                .onDisappear {
+                    DataPersistenceManager.shared.fetchCartItems { result in
+                        switch result {
+                        case .success(let cartItems):
+                            itemsSavedToCart = cartItems
+                        case .failure(let failure):
+                            print("Failed to fetch cart items")
+                        }
+                    }
+                }
+        })
+        .onChange(of: searchText) {
+            print(searchText)
+        }
+        .onAppear {
+            DataPersistenceManager.shared.fetchCartItems { result in
+                switch result {
+                case .success(let cartItems):
+                    itemsSavedToCart = cartItems
+                case .failure(let failure):
+                    print("Failed to fetch cart items")
                 }
             }
         }

@@ -142,6 +142,7 @@ struct CheckOutView: View {
             case .succeeded:
                 alertTitle = "Success"
                 alertMessage = "Payment successful"
+                addToHistory(cartItems: checkoutItems)
             case .canceled:
                 alertTitle = "Success"
                 alertMessage = "Payment is canceled"
@@ -154,5 +155,29 @@ struct CheckOutView: View {
             showLoading = false
         }
         
+    }
+    
+    private func addToHistory(cartItems: [CartItem]) {
+        for cartItem in cartItems {
+            if !DataPersistenceManager.shared.isItemInHistory(id: Int64(cartItem.id)) {
+                DataPersistenceManager.shared.addToHistory(item: cartItem) { result in
+                    switch result {
+                    case .success(let success):
+                        print("Success aading to history")
+                    case .failure(let failure):
+                        print("Failed adding to history \(failure)")
+                    }
+                }
+            } else {
+                DataPersistenceManager.shared.updateHistorytemQuantity(id: cartItem.id, newQuantity: cartItem.quantity ?? 1) { result in
+                    switch result {
+                    case .success(let success):
+                        print("Success updateing history item")
+                    case .failure(let failure):
+                        print("failed updating history item: \(failure)")
+                    }
+                }
+            }
+        }
     }
 }
