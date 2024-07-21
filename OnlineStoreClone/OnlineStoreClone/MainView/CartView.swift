@@ -94,14 +94,26 @@ struct CartView: View {
                         }
                         
                     } else {
-                        ProgressView()
+                        ZStack {
+                            Color.black.opacity(0.5)
+                                .edgesIgnoringSafeArea(.all)
+                            ProgressView()
+                                .scaleEffect(2)
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        }
                     }
                     Spacer()
                 }
                 Spacer()
             }
             if showLoading {
-                ProgressView()
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView()
+                        .scaleEffect(2)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
             }
         }
         .alert(isPresented: $showConfirmation) {

@@ -45,18 +45,14 @@ struct HomeView: View {
                     ProductCategoryScrollView(selectedIndex: $selectedIndex, categories: categories, categorizedProducts: filteredProducts)
                 }
             } else {
-                HStack {
-                    Spacer()
-                    VStack {
-                        Spacer()
-                        ProgressView("Preparing products")
-                        Spacer()
-                    }
-                    Spacer()
+                ZStack {
+                    Color.black.opacity(0.3)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView("Preparing Products")
+                        .scaleEffect(2)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 }
             }
-            
-            Spacer()
             Spacer()
         }
         .navigationBarTitleDisplayMode(.inline)

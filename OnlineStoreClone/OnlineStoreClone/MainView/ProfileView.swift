@@ -85,8 +85,13 @@ struct ProfileView: View {
                             }
                         }
                     } else {
-                        ProgressView()
-                            .frame(width: 200, height: 200)
+                        ZStack {
+                            Color.black.opacity(0.5)
+                                .edgesIgnoringSafeArea(.all)
+                            ProgressView()
+                                .scaleEffect(2)
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        }
                     }
                 } header: {
                     Text("Purchase History")

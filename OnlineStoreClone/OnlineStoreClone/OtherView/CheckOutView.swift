@@ -105,7 +105,13 @@ struct CheckOutView: View {
                 .padding(.bottom, 20)
             }
             if showLoading {
-                ProgressView()
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView()
+                        .scaleEffect(2)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
             }
         }
         .alert(isPresented: $showAlert) {

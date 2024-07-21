@@ -16,6 +16,13 @@ struct FavoriteView: View {
     @State private var searchText: String = ""
     @State private var showCartView: Bool = false
     @State private var itemsSavedToCart = [CartItem]()
+    
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var successfulAdds = 0
+    @State private var failedAdds = 0
+    @State private var remainingAdds = 0
+    
     var body: some View {
         VStack {
             TagLineFavoriteView()
@@ -63,9 +70,7 @@ struct FavoriteView: View {
                     VStack {
                         Button(action: {
                             showLoading = true
-                            for product in favoriteProducts {
-                                addTocart(product)
-                            }
+                            addAllToCart()
                             showLoading = false
                         }, label: {
                             Text("Add all items to cart")
@@ -77,12 +82,23 @@ struct FavoriteView: View {
                 }
                 
             } else {
-                ProgressView()
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView()
+                        .scaleEffect(2)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
             }
             Spacer()
             if showLoading {
-                ProgressView("Adding to carts")
-            }
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView("Adding to Carts")
+                        .scaleEffect(2)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }            }
         }
         .task {
             DataPersistenceManager.shared.fetchFavoriteItems { result in
@@ -131,6 +147,9 @@ struct FavoriteView: View {
                 }
             }
         }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Cart Status"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
     }
     private func deleteItem(_ item: Product) {
         if let index = favoriteProducts.firstIndex(where: { $0.id == item.id }) {
@@ -147,14 +166,28 @@ struct FavoriteView: View {
         }
     }
     
+    private func addAllToCart() {
+        remainingAdds = favoriteProducts.count
+        successfulAdds = 0
+        failedAdds = 0
+        for product in favoriteProducts {
+            addTocart(product)
+        }
+    }
+
     private func addTocart(_ product: Product) {
         let cartItem = CartItem(quantity: 1, id: product.id, title: product.title, price: product.price, description: product.description, category: product.category, image: product.image, rate: product.rating.rate, count: product.rating.count)
         DataPersistenceManager.shared.addToCartItems(item: cartItem) { result in
             switch result {
-            case .success(let success):
-                print("item added")
-            case .failure(let failure):
-                print("failed to add")
+            case .success:
+                successfulAdds += 1
+            case .failure:
+                failedAdds += 1
+            }
+            remainingAdds -= 1
+            if remainingAdds == 0 {
+                alertMessage = "Items added to cart: \(successfulAdds)"
+                showAlert = true
             }
         }
     }
