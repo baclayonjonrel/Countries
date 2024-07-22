@@ -12,11 +12,26 @@ OnlineStoreClone is a fully functional e-commerce application that allows users 
 - Swipe Actions: Swipe left on cart items to reveal edit and delete actions.
 
 ## Screenshots
-*Coming soon
+
+<div style="overflow-x: scroll; white-space: nowrap;">
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss1.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss2.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss3.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss4.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss5.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss6.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss7.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss8.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss9.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss10.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss11.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss12.png" alt="Home Screen" width="120"/>
+    <img src="https://github.com/baclayonjonrel/OnlineStoreClone/blob/9c6dc486dc641485497623ec55489734d5c0ea82/Demo/ss13.png" alt="Home Screen" width="120"/>
+</div>
 
 ## Screen Recording
 
-*Coming soon
+[*Check on my porfolio website*](https://jonrelbaclayon.netlify.app/#projects)
 
 ## Installation
 
