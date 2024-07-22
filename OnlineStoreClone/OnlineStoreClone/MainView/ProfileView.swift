@@ -12,6 +12,7 @@ struct ProfileView: View {
     
     @State private var purchaseHistory: [CartItem] = [CartItem]()
     @State private var isFetching: Bool = true
+    @ObservedObject var viewModel: LoginViewModel
     
     var body: some View {
         VStack {
@@ -20,8 +21,10 @@ struct ProfileView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
                 .clipShape(.circle)
-            Text("Jonrel Baclayon")
-            Text("baclayonjonrel@gmail.com")
+            
+            Text(viewModel.currentUser?.displayName ?? "Not set")
+            
+            Text(viewModel.currentUser?.email ?? "")
             Divider()
                 .padding(.horizontal, 10)
             
@@ -31,7 +34,7 @@ struct ProfileView: View {
                     HStack {
                         Text("Name")
                         Spacer()
-                        Text("Jonrel")
+                        Text(viewModel.currentUser?.displayName ?? "Set Now")
                         Image(systemName: "pencil")
                     }
                     HStack {
@@ -55,7 +58,7 @@ struct ProfileView: View {
                     HStack {
                         Text("Email")
                         Spacer()
-                        Text("baclayonjonrel@gmail.com")
+                        Text(viewModel.currentUser?.email ?? "")
                         Image(systemName: "pencil")
                     }
                 } header: {
@@ -99,6 +102,27 @@ struct ProfileView: View {
             }
             
             Spacer()
+            VStack {
+                Button(action: {
+                    viewModel.signOut { result in
+                        switch result {
+                        case .success(let success):
+                            print("logged out")
+                        case .failure(let failure):
+                            print("failed logging out: \(failure)")
+                        }
+                    }
+                }, label: {
+                    Text("Log out")
+                        .font(.system(size: 24, weight: .bold, design: .default))
+                        .frame(maxWidth: .infinity, maxHeight: 55)
+                        .foregroundColor(Color.white)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                        .padding(.horizontal, 40)
+                        .padding(.bottom, 20)
+                })
+            }
         }
         .padding(.top, 40)
         .onAppear {
@@ -114,8 +138,4 @@ struct ProfileView: View {
             }
         }
     }
-}
-
-#Preview {
-    ProfileView()
 }

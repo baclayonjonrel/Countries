@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainTabbedView: View {
+    @ObservedObject var viewModel: LoginViewModel
     @State var selectedTab = 0
     var body: some View {
         ZStack {
@@ -29,7 +30,7 @@ struct MainTabbedView: View {
                 }
                 .tag(1)
                 NavigationStack {
-                    ProfileView()
+                    ProfileView(viewModel: viewModel)
                 }
                 .tabItem {
                     Image(systemName: "person")

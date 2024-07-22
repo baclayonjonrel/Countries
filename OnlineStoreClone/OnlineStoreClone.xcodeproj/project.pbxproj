@@ -35,6 +35,10 @@
 		F79C04A12C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F79C049F2C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld */; };
 		F79C04A32C4C415C000DFB62 /* DataPersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79C04A22C4C415C000DFB62 /* DataPersistenceManager.swift */; };
 		F79C04C42C4C43D3000DFB62 /* CartItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79C04C32C4C43D3000DFB62 /* CartItemModel.swift */; };
+		F7C04AB42C4DCBEE00725AA0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7C04AB32C4DCBEE00725AA0 /* GoogleService-Info.plist */; };
+		F7C04AB72C4DCC2400725AA0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F7C04AB62C4DCC2400725AA0 /* FirebaseAuth */; };
+		F7C04AB92C4DCC7200725AA0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C04AB82C4DCC7200725AA0 /* LoginView.swift */; };
+		F7C04ABC2C4DCECB00725AA0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C04ABB2C4DCECB00725AA0 /* LoginViewModel.swift */; };
 		F7CBC37A2C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7CBC3782C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +71,9 @@
 		F79C04A02C4C406A000DFB62 /* OnlineStoreCloneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OnlineStoreCloneModel.xcdatamodel; sourceTree = "<group>"; };
 		F79C04A22C4C415C000DFB62 /* DataPersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistenceManager.swift; sourceTree = "<group>"; };
 		F79C04C32C4C43D3000DFB62 /* CartItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemModel.swift; sourceTree = "<group>"; };
+		F7C04AB32C4DCBEE00725AA0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "OnlineStoreClone/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F7C04AB82C4DCC7200725AA0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F7C04ABB2C4DCECB00725AA0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F7CBC3792C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PurchaseHistoryDataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,6 +83,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F79C04992C4B7BF6000DFB62 /* SDWebImageSwiftUI in Frameworks */,
+				F7C04AB72C4DCC2400725AA0 /* FirebaseAuth in Frameworks */,
 				F77F8D152C4C60F000C10F10 /* Stripe in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +102,7 @@
 		F79C04652C4B7375000DFB62 = {
 			isa = PBXGroup;
 			children = (
+				F7C04AB32C4DCBEE00725AA0 /* GoogleService-Info.plist */,
 				F79C04702C4B7375000DFB62 /* OnlineStoreClone */,
 				F79C046F2C4B7375000DFB62 /* Products */,
 			);
@@ -110,6 +119,7 @@
 		F79C04702C4B7375000DFB62 /* OnlineStoreClone */ = {
 			isa = PBXGroup;
 			children = (
+				F7C04ABA2C4DCEBB00725AA0 /* Authentication */,
 				F77F8D162C4C67DF00C10F10 /* Formatter */,
 				F79C049A2C4B7DAF000DFB62 /* OtherView */,
 				F79C04912C4B7818000DFB62 /* Managers */,
@@ -190,6 +200,15 @@
 			path = OtherView;
 			sourceTree = "<group>";
 		};
+		F7C04ABA2C4DCEBB00725AA0 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				F7C04AB82C4DCC7200725AA0 /* LoginView.swift */,
+				F7C04ABB2C4DCECB00725AA0 /* LoginViewModel.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -209,6 +228,7 @@
 			packageProductDependencies = (
 				F79C04982C4B7BF6000DFB62 /* SDWebImageSwiftUI */,
 				F77F8D142C4C60F000C10F10 /* Stripe */,
+				F7C04AB62C4DCC2400725AA0 /* FirebaseAuth */,
 			);
 			productName = OnlineStoreClone;
 			productReference = F79C046E2C4B7375000DFB62 /* OnlineStoreClone.app */;
@@ -241,6 +261,7 @@
 			packageReferences = (
 				F79C04972C4B7BF6000DFB62 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				F77F8D132C4C60F000C10F10 /* XCRemoteSwiftPackageReference "stripe-ios" */,
+				F7C04AB52C4DCC2400725AA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = F79C046F2C4B7375000DFB62 /* Products */;
 			projectDirPath = "";
@@ -258,6 +279,7 @@
 			files = (
 				F79C048F2C4B7594000DFB62 /* PlayfairDisplay-Regular.ttf in Resources */,
 				F79C048E2C4B7594000DFB62 /* PlayfairDisplay-Bold.ttf in Resources */,
+				F7C04AB42C4DCBEE00725AA0 /* GoogleService-Info.plist in Resources */,
 				F79C04792C4B7377000DFB62 /* Preview Assets.xcassets in Resources */,
 				F79C04762C4B7377000DFB62 /* Assets.xcassets in Resources */,
 			);
@@ -276,12 +298,14 @@
 				F79C048A2C4B73D0000DFB62 /* CartView.swift in Sources */,
 				F77F8D182C4C67EE00C10F10 /* PriceFormatter.swift in Sources */,
 				F77F8D0C2C4C4D4900C10F10 /* FavoriteItemModel.swift in Sources */,
+				F7C04AB92C4DCC7200725AA0 /* LoginView.swift in Sources */,
 				F77F8D122C4C60C900C10F10 /* StripeModel.swift in Sources */,
 				F79C049E2C4B7E52000DFB62 /* ProductDetailView.swift in Sources */,
 				F79C04842C4B73A4000DFB62 /* HomeView.swift in Sources */,
 				F79C04C42C4C43D3000DFB62 /* CartItemModel.swift in Sources */,
 				F77F8D0A2C4C472200C10F10 /* FavoriteItemDataModel.xcdatamodeld in Sources */,
 				F7CBC37A2C4CE97100B7D749 /* PurchaseHistoryDataModel.xcdatamodeld in Sources */,
+				F7C04ABC2C4DCECB00725AA0 /* LoginViewModel.swift in Sources */,
 				F79C049C2C4B7DC3000DFB62 /* StarRatingView.swift in Sources */,
 				F79C04722C4B7375000DFB62 /* OnlineStoreCloneApp.swift in Sources */,
 				F79C04A12C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld in Sources */,
@@ -440,7 +464,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MobileShopClone.app.OnlineStoreClone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MobileShopClone.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -470,7 +494,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MobileShopClone.app.OnlineStoreClone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MobileShopClone.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -518,6 +542,14 @@
 				minimumVersion = 3.1.1;
 			};
 		};
+		F7C04AB52C4DCC2400725AA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.29.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -530,6 +562,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F79C04972C4B7BF6000DFB62 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		F7C04AB62C4DCC2400725AA0 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7C04AB52C4DCC2400725AA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 
