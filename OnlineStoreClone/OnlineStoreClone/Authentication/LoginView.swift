@@ -18,6 +18,7 @@ struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var isLogin: Bool = true
+    @State private var isLoading: Bool = false
     @FocusState private var focusedField: Field?
     
     var body: some View {
@@ -60,6 +61,7 @@ struct LoginView: View {
                 Spacer()
                 VStack {
                     Button(action: {
+                        isLoading = true
                         Authenticate()
                     }, label: {
                         Text(isLogin ? "Login" : "Sign up")
@@ -78,6 +80,15 @@ struct LoginView: View {
                 .padding(.bottom, 20)
             }
             .padding(30)
+            if isLoading {
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView()
+                        .scaleEffect(2)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
+            }
         }
     }
     
@@ -90,6 +101,7 @@ struct LoginView: View {
                 case .failure(let failure):
                     print("failed to login \(failure.localizedDescription)")
                 }
+                isLoading = false
             }
         } else {
             viewModel.register(email: email, password: password) { result in
@@ -99,6 +111,7 @@ struct LoginView: View {
                 case .failure(let failure):
                     print("failed to register")
                 }
+                isLoading = false
             }
         }
     }

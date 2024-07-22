@@ -78,6 +78,8 @@ struct CartView: View {
                                     }
                                 }
                                 .ignoresSafeArea(edges: .horizontal)
+                                .scrollContentBackground(.hidden)
+                                .background(Color.clear)
                                 
                             }
                             Button(action: {

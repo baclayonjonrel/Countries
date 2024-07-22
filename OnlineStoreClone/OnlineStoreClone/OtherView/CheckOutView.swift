@@ -46,15 +46,15 @@ struct CheckOutView: View {
                 
                 List {
                     Section {
-                        ForEach(0..<checkoutItems.count) { i in
+                        ForEach(0..<checkoutItems.count, id: \.self) { i in
                             VStack {
                                 Divider()
                                 HStack {
-                                    WebImage(url: URL(string: checkoutItems[i].image ?? ""))
+                                    WebImage(url: URL(string: checkoutItems[i].image))
                                         .resizable()
                                         .frame(width: 50, height: 50)
                                     VStack {
-                                        Text(checkoutItems[i].title ?? "")
+                                        Text(checkoutItems[i].title)
                                             .font(.system(size: 10))
                                             .multilineTextAlignment(.leading)
                                         HStack {
@@ -90,8 +90,8 @@ struct CheckOutView: View {
                         Text("Card details")
                     }
                 }
-                .padding(.bottom, 10)
-                .padding(.horizontal, 10)
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
                 
                 Spacer()
                 

@@ -52,7 +52,7 @@ struct HomeView: View {
                         Color.black.opacity(0.3)
                             .edgesIgnoringSafeArea(.all)
                         ProgressView("Preparing Products")
-                            .scaleEffect(2)
+                            .scaleEffect(1)
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     }
                 }
