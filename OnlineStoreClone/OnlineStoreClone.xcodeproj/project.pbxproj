@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F7432CF62C4E446100679CF3 /* CustomAlertWithTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7432CF52C4E446100679CF3 /* CustomAlertWithTF.swift */; };
+		F7432CF82C4E49F400679CF3 /* CustomAlertWithRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7432CF72C4E49F400679CF3 /* CustomAlertWithRadioButton.swift */; };
+		F7432CFA2C4E4C0100679CF3 /* CustomAlertWithDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7432CF92C4E4C0100679CF3 /* CustomAlertWithDatePicker.swift */; };
 		F77F8D0A2C4C472200C10F10 /* FavoriteItemDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F77F8D082C4C472200C10F10 /* FavoriteItemDataModel.xcdatamodeld */; };
 		F77F8D0C2C4C4D4900C10F10 /* FavoriteItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77F8D0B2C4C4D4900C10F10 /* FavoriteItemModel.swift */; };
 		F77F8D0E2C4C56A400C10F10 /* ToolBarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77F8D0D2C4C56A400C10F10 /* ToolBarItems.swift */; };
@@ -46,6 +49,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F7432CF52C4E446100679CF3 /* CustomAlertWithTF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertWithTF.swift; sourceTree = "<group>"; };
+		F7432CF72C4E49F400679CF3 /* CustomAlertWithRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertWithRadioButton.swift; sourceTree = "<group>"; };
+		F7432CF92C4E4C0100679CF3 /* CustomAlertWithDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertWithDatePicker.swift; sourceTree = "<group>"; };
 		F77F8D092C4C472200C10F10 /* FavoriteItemDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FavoriteItemDataModel.xcdatamodel; sourceTree = "<group>"; };
 		F77F8D0B2C4C4D4900C10F10 /* FavoriteItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteItemModel.swift; sourceTree = "<group>"; };
 		F77F8D0D2C4C56A400C10F10 /* ToolBarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItems.swift; sourceTree = "<group>"; };
@@ -97,6 +103,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F7432CF42C4E444D00679CF3 /* CustomAlert */ = {
+			isa = PBXGroup;
+			children = (
+				F7432CF52C4E446100679CF3 /* CustomAlertWithTF.swift */,
+				F7432CF72C4E49F400679CF3 /* CustomAlertWithRadioButton.swift */,
+				F7432CF92C4E4C0100679CF3 /* CustomAlertWithDatePicker.swift */,
+			);
+			path = CustomAlert;
+			sourceTree = "<group>";
+		};
 		F77F8D162C4C67DF00C10F10 /* Formatter */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +149,7 @@
 		F79C04702C4B7375000DFB62 /* OnlineStoreClone */ = {
 			isa = PBXGroup;
 			children = (
+				F7432CF42C4E444D00679CF3 /* CustomAlert */,
 				F79651962C4E0A8200FD77A1 /* ProfileHandling */,
 				F7C04ABA2C4DCEBB00725AA0 /* Authentication */,
 				F77F8D162C4C67DF00C10F10 /* Formatter */,
@@ -318,6 +335,7 @@
 				F77F8D0C2C4C4D4900C10F10 /* FavoriteItemModel.swift in Sources */,
 				F7C04AB92C4DCC7200725AA0 /* LoginView.swift in Sources */,
 				F77F8D122C4C60C900C10F10 /* StripeModel.swift in Sources */,
+				F7432CFA2C4E4C0100679CF3 /* CustomAlertWithDatePicker.swift in Sources */,
 				F79C049E2C4B7E52000DFB62 /* ProductDetailView.swift in Sources */,
 				F79C04842C4B73A4000DFB62 /* HomeView.swift in Sources */,
 				F79C04C42C4C43D3000DFB62 /* CartItemModel.swift in Sources */,
@@ -327,6 +345,7 @@
 				F79C049C2C4B7DC3000DFB62 /* StarRatingView.swift in Sources */,
 				F79C04722C4B7375000DFB62 /* OnlineStoreCloneApp.swift in Sources */,
 				F79C04A12C4C406A000DFB62 /* CartItemDataModel.xcdatamodeld in Sources */,
+				F7432CF82C4E49F400679CF3 /* CustomAlertWithRadioButton.swift in Sources */,
 				F79C04962C4B7876000DFB62 /* ProductModel.swift in Sources */,
 				F79C04862C4B73B3000DFB62 /* FavoriteView.swift in Sources */,
 				F79C04882C4B73C4000DFB62 /* ProfileView.swift in Sources */,
@@ -336,6 +355,7 @@
 				F77F8D0E2C4C56A400C10F10 /* ToolBarItems.swift in Sources */,
 				F77F8D112C4C60C900C10F10 /* PaymentConfig.swift in Sources */,
 				F79C04932C4B7834000DFB62 /* APICaller.swift in Sources */,
+				F7432CF62C4E446100679CF3 /* CustomAlertWithTF.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

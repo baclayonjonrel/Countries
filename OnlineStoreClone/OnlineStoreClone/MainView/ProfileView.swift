@@ -14,6 +14,13 @@ struct ProfileView: View {
     @State private var purchaseHistory: [CartItem] = [CartItem]()
     @State private var isFetching: Bool = true
     @ObservedObject var viewModel: LoginViewModel
+    @State private var showLoading: Bool = false
+    @State private var editName: Bool = false
+    @State private var editBio: Bool = false
+    @State private var editGender: Bool = false
+    @State private var editBithday: Bool = false
+    @StateObject private var genderSelection = GenderSelectionViewModel()
+    @StateObject private var dateSelection = DateSelectionViewModel()
     
     var body: some View {
         ZStack {
@@ -26,7 +33,7 @@ struct ProfileView: View {
                         if let imageURL = viewModel.currentUser?.photoURL {
                             WebImage(url: imageURL)
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
+                                .aspectRatio(contentMode: .fill)
                                 .frame(width: 150, height: 150)
                                 .clipShape(.circle)
                         } else {
@@ -53,31 +60,58 @@ struct ProfileView: View {
                             Text("Name")
                             Spacer()
                             Text(viewModel.currentUser?.displayName ?? "Set Now")
-                            Image(systemName: "pencil")
+                            Button {
+                                withAnimation {
+                                    editName = true
+                                }
+                            } label: {
+                                Image(systemName: "pencil")
+                            }
+
                         }
                         HStack {
                             Text("Bio")
                             Spacer()
                             Text("Set Now")
-                            Image(systemName: "pencil")
+                            Button {
+                                //ad bio to core data only
+                                withAnimation {
+                                    editBio = true
+                                }
+                            } label: {
+                                Image(systemName: "pencil")
+                            }
                         }
                         HStack {
                             Text("Gender")
                             Spacer()
                             Text("Set Now")
-                            Image(systemName: "pencil")
+                            Button {
+                                // add gender for core data only
+                                withAnimation {
+                                    editGender = true
+                                }
+                            } label: {
+                                Image(systemName: "pencil")
+                            }
                         }
                         HStack {
                             Text("Birthday")
                             Spacer()
                             Text("Set Now")
-                            Image(systemName: "pencil")
+                            Button {
+                                //add birthday for core data only
+                                withAnimation {
+                                    editBithday = true
+                                }
+                            } label: {
+                                Image(systemName: "pencil")
+                            }
                         }
                         HStack {
                             Text("Email")
                             Spacer()
                             Text(viewModel.currentUser?.email ?? "")
-                            Image(systemName: "pencil")
                         }
                     } header: {
                         Text("Personal information")
@@ -149,6 +183,72 @@ struct ProfileView: View {
                 }
             }
             .padding(.top, 40)
+            
+            if editName {
+                CustomAlertViewWithTextField(
+                                title: "Edit Name",
+                                placeHolder: "Enter New Name",
+                                isPresenting: $editName) { nameInput in
+                                    print(nameInput)
+                                    editName = false
+                                    showLoading = true
+                                    viewModel.updateUserName(userName: nameInput) { result in
+                                        switch result {
+                                        case .success(let success):
+                                            print("Edited successfully")
+                                            showLoading = false
+                                        case .failure(let failure):
+                                            print("Failed editing")
+                                            showLoading = false
+                                        }
+                                    }
+                                }
+            }
+            
+            if editBio {
+                CustomAlertViewWithTextField(
+                                title: "Edit Bio",
+                                placeHolder: "Enter New Bio",
+                                isPresenting: $editBio) { bioInput in
+                                    print(bioInput)
+                                    editBio = false
+                                }
+            }
+            
+            if editGender {
+                CustomAlertViewWithRadioButton(
+                                title: "Select Gender",
+                                isPresenting: $editGender,
+                                viewModel: genderSelection,
+                                onSubmit: { gender in
+                                    print(gender)
+                                    editGender = false
+                                }
+                            )
+            }
+            
+            if editBithday {
+                CustomAlertViewWithDatePicker(
+                                title: "Select Date",
+                                isPresenting: $editBithday,
+                                viewModel: dateSelection,
+                                onSubmit: { formattedDate in
+                                    print(formattedDate)
+                                    editBithday = false
+                                }
+                            )
+            }
+            
+            if showLoading {
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView()
+                        .scaleEffect(2)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
+            }
+            
         }
         .onAppear {
             DataPersistenceManager.shared.fetchHistoryItems(userId: viewModel.currentUser?.uid ?? "") { result in

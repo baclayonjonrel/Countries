@@ -44,11 +44,13 @@ struct EditProfilePicView: View {
             PhotosPicker("Select Image", selection: $avatarItem, matching: .images)
                 .padding()
             
-            Button(action: {
-                uploadImage()
-            }, label: {
-                Text("Upload Photo")
-            })
+            if avatarItem != nil {
+                Button(action: {
+                    uploadImage()
+                }, label: {
+                    Text("Upload Photo")
+                })
+            }
         }
         .onChange(of: avatarItem) {
             Task {
