@@ -25,9 +25,11 @@ struct CheckOutView: View {
     @State private var alertMessage: String = ""
     @State private var alertTitle: String = ""
     @State private var activeAlert: ActiveAlert = .confirmation
+    @ObservedObject var viewModel: LoginViewModel
     
     var body: some View {
         ZStack {
+            BackgroundView()
             VStack {
                 HStack {
                     Button(action: {
@@ -164,9 +166,10 @@ struct CheckOutView: View {
     }
     
     private func addToHistory(cartItems: [CartItem]) {
+        let userId = viewModel.currentUser?.uid ?? ""
         for cartItem in cartItems {
-            if !DataPersistenceManager.shared.isItemInHistory(id: Int64(cartItem.id)) {
-                DataPersistenceManager.shared.addToHistory(item: cartItem) { result in
+            if !DataPersistenceManager.shared.isItemInHistory(userId: userId, id: Int64(cartItem.id)) {
+                DataPersistenceManager.shared.addToHistory(userId: userId, item: cartItem) { result in
                     switch result {
                     case .success(let success):
                         print("Success aading to history")
@@ -175,7 +178,7 @@ struct CheckOutView: View {
                     }
                 }
             } else {
-                DataPersistenceManager.shared.updateHistorytemQuantity(id: cartItem.id, newQuantity: cartItem.quantity ?? 1) { result in
+                DataPersistenceManager.shared.updateHistorytemQuantity(userId: userId, id: cartItem.id, newQuantity: cartItem.quantity ?? 1) { result in
                     switch result {
                     case .success(let success):
                         print("Success updateing history item")

@@ -18,42 +18,46 @@ struct HomeView: View {
     @State private var showCartView: Bool = false
     @State private var itemsSavedToCart = [CartItem]()
     @State private var filteredProducts: [[Product]] = Array(repeating: [], count: 5)
+    @ObservedObject var viewModel: LoginViewModel
     
     var body: some View {
-        VStack {
-            Divider()
-            TagLineView()
-                .padding(.horizontal, 10)
-                .padding(.vertical, 0)
-            Divider()
-                ScrollView (.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(0 ..< categories.count, id: \.self) { item in
-                            CategoryView(isActive: item == selectedIndex, text: categories[item])
-                                .onTapGesture {
-                                    selectedIndex = item
-                                }
-                            }
-                    }
-                    .padding(.horizontal, 10)
-                }
+        ZStack {
+            BackgroundView()
+            VStack {
                 Divider()
-            if !isFetching {
-                if !isSearching {
-                    ProductCategoryScrollView(selectedIndex: $selectedIndex, categories: categories, categorizedProducts: categorizedProducts)
+                TagLineView()
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 0)
+                Divider()
+                    ScrollView (.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0 ..< categories.count, id: \.self) { item in
+                                CategoryView(isActive: item == selectedIndex, text: categories[item])
+                                    .onTapGesture {
+                                        selectedIndex = item
+                                    }
+                                }
+                        }
+                        .padding(.horizontal, 10)
+                    }
+                    Divider()
+                if !isFetching {
+                    if !isSearching {
+                        ProductCategoryScrollView(selectedIndex: $selectedIndex, categories: categories, categorizedProducts: categorizedProducts, viewModel: viewModel)
+                    } else {
+                        ProductCategoryScrollView(selectedIndex: $selectedIndex, categories: categories, categorizedProducts: filteredProducts, viewModel: viewModel)
+                    }
                 } else {
-                    ProductCategoryScrollView(selectedIndex: $selectedIndex, categories: categories, categorizedProducts: filteredProducts)
+                    ZStack {
+                        Color.black.opacity(0.3)
+                            .edgesIgnoringSafeArea(.all)
+                        ProgressView("Preparing Products")
+                            .scaleEffect(2)
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    }
                 }
-            } else {
-                ZStack {
-                    Color.black.opacity(0.3)
-                        .edgesIgnoringSafeArea(.all)
-                    ProgressView("Preparing Products")
-                        .scaleEffect(2)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                }
+                Spacer()
             }
-            Spacer()
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -69,9 +73,9 @@ struct HomeView: View {
             }
         }
         .fullScreenCover(isPresented: $showCartView, content: {
-            CartView()
+            CartView(viewModel: viewModel)
                 .onDisappear {
-                    DataPersistenceManager.shared.fetchCartItems { result in
+                    DataPersistenceManager.shared.fetchCartItems(userId: viewModel.currentUser?.uid ?? "") { result in
                         switch result {
                         case .success(let cartItems):
                             itemsSavedToCart = cartItems
@@ -117,7 +121,7 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            DataPersistenceManager.shared.fetchCartItems { result in
+            DataPersistenceManager.shared.fetchCartItems(userId: viewModel.currentUser?.uid ?? "") { result in
                 switch result {
                 case .success(let cartItems):
                     itemsSavedToCart = cartItems
@@ -134,13 +138,14 @@ struct ProductCategoryScrollView: View {
     @Binding var selectedIndex: Int
     let categories: [String]
     let categorizedProducts: [[Product]]
+    @ObservedObject var viewModel: LoginViewModel
     
     var body: some View {
         ScrollView {
             if selectedIndex == 0 {
                 ForEach(1 ..< categories.count, id: \.self) { item in
                     if !categorizedProducts[item].isEmpty {
-                        ProductScrollView(products: categorizedProducts[item],categoryName: categories[item]) { returnCategory in
+                        ProductScrollView(products: categorizedProducts[item],categoryName: categories[item], viewModel: viewModel) { returnCategory in
                             switch returnCategory {
                             case "Jewelery":
                                 selectedIndex = 1
@@ -159,7 +164,7 @@ struct ProductCategoryScrollView: View {
             } else {
                 ForEach(0 ..< categories.count, id: \.self) { item in
                     if item == selectedIndex {
-                        ProductScrollView(products: categorizedProducts[item], categoryName: categories[item]) { returnCategory in
+                        ProductScrollView(products: categorizedProducts[item], categoryName: categories[item], viewModel: viewModel) { returnCategory in
                             switch returnCategory {
                             case "Jewelery":
                                 selectedIndex = 1
@@ -217,6 +222,7 @@ struct CategoryView: View {
 struct ProductScrollView: View {
     let products: [Product]
     let categoryName: String
+    @ObservedObject var viewModel: LoginViewModel
     var submitAction: (String) -> Void
     var body: some View {
         VStack {
@@ -237,7 +243,7 @@ struct ProductScrollView: View {
             ScrollView (.horizontal, showsIndicators: false) {
                 HStack (spacing: 5) {
                     ForEach(0 ..< products.count, id: \.self) { item in
-                        NavigationLink(destination: ProductDetailView(selectedProduct: products[item], recommendedProducts: products)) {
+                        NavigationLink(destination: ProductDetailView(selectedProduct: products[item], recommendedProducts: products, viewModel: viewModel)) {
                             ProductCardView(product: products[item])
                                 .padding(.horizontal, 5)
                         }

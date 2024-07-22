@@ -16,98 +16,104 @@ struct ProductDetailView: View {
     @State private var addedToFavorites = false
     @State private var showCartView: Bool = false
     
+    @ObservedObject var viewModel: LoginViewModel
+    
     var body: some View {
-        GeometryReader { geo in
-            ScrollView {
-                VStack {
-                    WebImage(url: URL(string: selectedProduct.image))
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: geo.size.width, height: geo.size.height / 2)
-                        .background()
-                    Divider()
-                    HStack {
-                        Text(PriceFormatter.shared.format(price: selectedProduct.price))
-                        Spacer()
-                        Button {
-                            if !DataPersistenceManager.shared.isItemInFavorites(id: Int64(selectedProduct.id)) {
-                                DataPersistenceManager.shared.addToFavorites(item: selectedProduct) { result in
-                                    switch result {
-                                    case .success(let success):
-                                        print("Success")
-                                        addedToFavorites = true
-                                    case .failure(let failure):
-                                        print("Failed")
-                                    }
-                                }
-                            } else {
-                                DataPersistenceManager.shared.deleteFavoriteItem(item: selectedProduct) { result in
-                                    switch result {
-                                    case .success(let success):
-                                        print("removed from favorites")
-                                        addedToFavorites = false
-                                    case .failure(let failure):
-                                        print("failed to remove from favoirites")
-                                    }
-                                }
-                            }
-                        } label: {
-                            Image(systemName: addedToFavorites ? "heart.fill" : "heart")
-                        }
-
-                    }
-                    .padding(.horizontal)
-                    Text(selectedProduct.title)
-                        .font(.custom("PlayfairDisplay-Regular", size: 20))
-                        .multilineTextAlignment(.leading)
-                    HStack {
-                        StarRatingView(rating: selectedProduct.rating.rate)
-                        Spacer()
-                        Text("\(selectedProduct.rating.count) left")
-                            .font(.system(size: 10))
-                    }
-                    .padding(.horizontal)
-                    
-                    Divider()
-                    Text("Product Description")
-                        .font(.headline)
-                    DescriptionView(showFullDescription: $showFullDescription, selectedProduct: selectedProduct)
-                    Divider()
-                    
-                    NavigationLink(destination: ReviewsView()) {
+        ZStack {
+            BackgroundView()
+            GeometryReader { geo in
+                ScrollView {
+                    VStack {
+                        WebImage(url: URL(string: selectedProduct.image))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: geo.size.width, height: geo.size.height / 2)
+                            .background()
+                        Divider()
                         HStack {
-                            Text("Reviews")
+                            Text(PriceFormatter.shared.format(price: selectedProduct.price))
                             Spacer()
-                            Image(systemName: "chevron.right")
+                            Button {
+                                if !DataPersistenceManager.shared.isItemInFavorites(userId: viewModel.currentUser?.uid ?? "", id: Int64(selectedProduct.id)) {
+                                    DataPersistenceManager.shared.addToFavorites(userId: viewModel.currentUser?.uid ?? "", item: selectedProduct) { result in
+                                        switch result {
+                                        case .success(let success):
+                                            print("Success")
+                                            addedToFavorites = true
+                                        case .failure(let failure):
+                                            print("Failed")
+                                        }
+                                    }
+                                } else {
+                                    DataPersistenceManager.shared.deleteFavoriteItem(userId: viewModel.currentUser?.uid ?? "", item: selectedProduct) { result in
+                                        switch result {
+                                        case .success(let success):
+                                            print("removed from favorites")
+                                            addedToFavorites = false
+                                        case .failure(let failure):
+                                            print("failed to remove from favoirites")
+                                        }
+                                    }
+                                }
+                            } label: {
+                                Image(systemName: addedToFavorites ? "heart.fill" : "heart")
+                            }
+                            
                         }
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal)
+                        Text(selectedProduct.title)
+                            .font(.custom("PlayfairDisplay-Regular", size: 20))
+                            .multilineTextAlignment(.leading)
+                        HStack {
+                            StarRatingView(rating: selectedProduct.rating.rate)
+                            Spacer()
+                            Text("\(selectedProduct.rating.count) left")
+                                .font(.system(size: 10))
+                        }
+                        .padding(.horizontal)
+                        
+                        Divider()
+                        Text("Product Description")
+                            .font(.headline)
+                        DescriptionView(showFullDescription: $showFullDescription, selectedProduct: selectedProduct)
+                        Divider()
+                        
+                        NavigationLink(destination: ReviewsView()) {
+                            HStack {
+                                Text("Reviews")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                            .padding(.horizontal, 10)
+                        }
+                        Divider()
+                        AddToCartView(number: $number, product: selectedProduct, viewModel: viewModel)
+                        Divider()
+                        RecommendedView(recommendedProducts: recommendedProducts, viewModel: viewModel)
+                        Spacer()
                     }
-                    Divider()
-                    AddToCartView(number: $number, product: selectedProduct)
-                    Divider()
-                    RecommendedView(recommendedProducts: recommendedProducts)
-                    Spacer()
+                }
+                .onAppear {
+                    addedToFavorites = DataPersistenceManager.shared.isItemInFavorites(userId: viewModel.currentUser?.uid ?? "", id: Int64(selectedProduct.id))
                 }
             }
-            .onAppear {
-                addedToFavorites = DataPersistenceManager.shared.isItemInFavorites(id: Int64(selectedProduct.id))
-            }
         }
-        
     }
 }
 
 struct AddToCartView: View {
     @Binding var number: Int
     let product: Product
+    @ObservedObject var viewModel: LoginViewModel
     
     var body: some View {
         HStack {
             Button(action: {
                 withAnimation {
                     let cartItem = CartItem(quantity: number, id: product.id, title: product.title, price: product.price, description: product.description, category: product.category, image: product.image, rate: product.rating.rate, count: product.rating.count)
-                    if !DataPersistenceManager.shared.isItemInCart(id: Int64(product.id)) {
-                        DataPersistenceManager.shared.addToCartItems(item: cartItem) { result in
+                    let userId = viewModel.currentUser?.uid ?? ""
+                    if !DataPersistenceManager.shared.isItemInCart(userId: userId, id: Int64(product.id)) {
+                        DataPersistenceManager.shared.addToCartItems(userId: userId, item: cartItem) { result in
                             switch result {
                             case .success(let success):
                                 print("Successfully added to cart")
@@ -117,7 +123,7 @@ struct AddToCartView: View {
                         }
                     } else {
                         print("Item is already on the cart, updating quantity")
-                        DataPersistenceManager.shared.updateCartItemQuantity(id: product.id, newQuantity: number) { result in
+                        DataPersistenceManager.shared.updateCartItemQuantity(userId: viewModel.currentUser?.uid ?? "", id: product.id, newQuantity: number) { result in
                             switch result {
                             case .success(let success):
                                 print("success")
@@ -164,13 +170,14 @@ struct AddToCartView: View {
 struct RecommendedView: View {
     
     let recommendedProducts: [Product]
+    @ObservedObject var viewModel: LoginViewModel
     
     var body: some View {
         Text("You may also like")
         ScrollView (.horizontal, showsIndicators: false) {
             HStack (spacing: 5) {
                 ForEach(0 ..< recommendedProducts.count) { item in
-                    NavigationLink(destination: ProductDetailView(selectedProduct: recommendedProducts[item], recommendedProducts: recommendedProducts)) {
+                    NavigationLink(destination: ProductDetailView(selectedProduct: recommendedProducts[item], recommendedProducts: recommendedProducts, viewModel: viewModel)) {
                         ProductCardView(product: recommendedProducts[item])
                             .padding(.horizontal, 5)
                     }

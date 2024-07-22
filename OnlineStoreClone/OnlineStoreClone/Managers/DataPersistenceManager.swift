@@ -23,31 +23,29 @@ class DataPersistenceManager {
     private let historyContext = PersistenceController.shared.historyContainer.viewContext
 
     // Cart Items Management
-    func addToCartItems(item: CartItem, completion: @escaping (Result<Void, Error>) -> Void) {
+    func addToCartItems(userId: String, item: CartItem, completion: @escaping (Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", item.id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", item.id, userId)
         
         do {
             let results = try cartContext.fetch(fetchRequest)
             
             if let existingItem = results.first {
-                // Update the quantity of the existing item
                 existingItem.quantity = Int64(item.quantity ?? 0)
             } else {
-                // Create a new item if it doesn't exist
                 let newItem = CartItemEntity(context: cartContext)
                 newItem.title = item.title
                 newItem.quantity = Int64(item.quantity ?? 0)
-                newItem.price = (item.price) as NSDecimalNumber
+                newItem.price = item.price as NSDecimalNumber
                 newItem.image = item.image
                 newItem.id = Int64(item.id)
                 newItem.itemdescription = item.description
                 newItem.category = item.category
-                newItem.rate = Double(item.rate)
+                newItem.rate = item.rate
                 newItem.count = Int64(item.count)
+                newItem.userID = userId
             }
             
-            // Save the context
             try cartContext.save()
             completion(.success(()))
         } catch {
@@ -55,9 +53,10 @@ class DataPersistenceManager {
         }
     }
 
-    func fetchCartItems(completion: @escaping (Result<[CartItem], Error>) -> Void) {
+    func fetchCartItems(userId: String, completion: @escaping (Result<[CartItem], Error>) -> Void) {
         let request: NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
-
+        request.predicate = NSPredicate(format: "userID == %@", userId)
+        
         do {
             let savedItems = try cartContext.fetch(request)
             let cartItems = savedItems.map { cartItemDB -> CartItem in
@@ -80,9 +79,9 @@ class DataPersistenceManager {
         }
     }
 
-    func deleteCartItem(item: CartItem, completion: @escaping (Result<Void, Error>) -> Void) {
+    func deleteCartItem(userId: String, item: CartItem, completion: @escaping (Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", item.id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", item.id, userId)
         
         do {
             let results = try cartContext.fetch(fetchRequest)
@@ -98,9 +97,9 @@ class DataPersistenceManager {
         }
     }
 
-    func isItemInCart(id: Int64) -> Bool {
+    func isItemInCart(userId: String, id: Int64) -> Bool {
         let fetchRequest: NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", id, userId)
 
         do {
             let results = try cartContext.fetch(fetchRequest)
@@ -111,18 +110,16 @@ class DataPersistenceManager {
         }
     }
     
-    func updateCartItemQuantity(id: Int, newQuantity: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+    func updateCartItemQuantity(userId: String, id: Int, newQuantity: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", id, userId)
         
         do {
             let results = try cartContext.fetch(fetchRequest)
             
             if let existingItem = results.first {
-                // Update the quantity of the existing item
                 existingItem.quantity = Int64(newQuantity) + existingItem.quantity
                 
-                // Save the context
                 try cartContext.save()
                 completion(.success(()))
             } else {
@@ -135,18 +132,22 @@ class DataPersistenceManager {
 
 
     // Favorite Items Management
-    func addToFavorites(item: Product, completion: @escaping (Result<Void, Error>) -> Void) {
-        let newItem = FavoriteItemEntity(context: favoriteContext)
-        newItem.title = item.title
-        newItem.price = (item.price) as NSDecimalNumber
-        newItem.image = item.image
-        newItem.id = Int64(item.id)
-        newItem.itemdescription = item.description
-        newItem.category = item.category
-        newItem.rate = Double(item.rating.rate)
-        newItem.count = Int64(item.rating.count)
-
+    func addToFavorites(userId: String, item: Product, completion: @escaping (Result<Void, Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<FavoriteItemEntity> = FavoriteItemEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", item.id, userId)
+        
         do {
+            let newItem = FavoriteItemEntity(context: favoriteContext)
+            newItem.title = item.title
+            newItem.price = item.price as NSDecimalNumber
+            newItem.image = item.image
+            newItem.id = Int64(item.id)
+            newItem.itemdescription = item.description
+            newItem.category = item.category
+            newItem.rate = item.rating.rate
+            newItem.count = Int64(item.rating.count)
+            newItem.userID = userId
+            
             try favoriteContext.save()
             completion(.success(()))
         } catch {
@@ -154,9 +155,10 @@ class DataPersistenceManager {
         }
     }
 
-    func fetchFavoriteItems(completion: @escaping (Result<[Product], Error>) -> Void) {
+    func fetchFavoriteItems(userId: String, completion: @escaping (Result<[Product], Error>) -> Void) {
         let request: NSFetchRequest<FavoriteItemEntity> = FavoriteItemEntity.fetchRequest()
-
+        request.predicate = NSPredicate(format: "userID == %@", userId)
+        
         do {
             let savedItems = try favoriteContext.fetch(request)
             let favoriteItems = savedItems.map { favoriteItemDB -> Product in
@@ -176,9 +178,9 @@ class DataPersistenceManager {
         }
     }
 
-    func deleteFavoriteItem(item: Product, completion: @escaping (Result<Void, Error>) -> Void) {
+    func deleteFavoriteItem(userId: String, item: Product, completion: @escaping (Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<FavoriteItemEntity> = FavoriteItemEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", item.id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", item.id, userId)
         
         do {
             let results = try favoriteContext.fetch(fetchRequest)
@@ -195,9 +197,9 @@ class DataPersistenceManager {
     }
 
 
-    func isItemInFavorites(id: Int64) -> Bool {
+    func isItemInFavorites(userId: String, id: Int64) -> Bool {
         let fetchRequest: NSFetchRequest<FavoriteItemEntity> = FavoriteItemEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", id, userId)
 
         do {
             let results = try favoriteContext.fetch(fetchRequest)
@@ -210,9 +212,9 @@ class DataPersistenceManager {
     
     
     //Purchase History
-    func addToHistory(item: CartItem, completion: @escaping (Result<Void, Error>) -> Void) {
+    func addToHistory(userId: String, item: CartItem, completion: @escaping (Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<HistoryEntity> = HistoryEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", item.id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", item.id, userId)
         
         do {
             let results = try historyContext.fetch(fetchRequest)
@@ -230,6 +232,7 @@ class DataPersistenceManager {
                 newItem.category = item.category
                 newItem.rate = Double(item.rate)
                 newItem.count = Int64(item.count)
+                newItem.userID = userId
             }
             
             try historyContext.save()
@@ -239,9 +242,10 @@ class DataPersistenceManager {
         }
     }
 
-    func fetchHistoryItems(completion: @escaping (Result<[CartItem], Error>) -> Void) {
+    func fetchHistoryItems(userId: String, completion: @escaping (Result<[CartItem], Error>) -> Void) {
         let request: NSFetchRequest<HistoryEntity> = HistoryEntity.fetchRequest()
-
+        request.predicate = NSPredicate(format: "userID == %@", userId)
+        
         do {
             let savedItems = try historyContext.fetch(request)
             let cartItems = savedItems.map { cartItemDB -> CartItem in
@@ -264,9 +268,9 @@ class DataPersistenceManager {
         }
     }
     
-    func isItemInHistory(id: Int64) -> Bool {
+    func isItemInHistory(userId: String, id: Int64) -> Bool {
         let fetchRequest: NSFetchRequest<HistoryEntity> = HistoryEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", id, userId)
 
         do {
             let results = try historyContext.fetch(fetchRequest)
@@ -277,9 +281,9 @@ class DataPersistenceManager {
         }
     }
     
-    func updateHistorytemQuantity(id: Int, newQuantity: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+    func updateHistorytemQuantity(userId: String, id: Int, newQuantity: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<HistoryEntity> = HistoryEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %d AND userID == %@", id, userId)
         
         do {
             let results = try historyContext.fetch(fetchRequest)

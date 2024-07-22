@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct CartView: View {
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var viewModel: LoginViewModel
     
     @State private var isFetching: Bool = true
     @State private var addedToCarts: [CartItem] = [CartItem]()
@@ -20,6 +21,7 @@ struct CartView: View {
     
     var body: some View {
         ZStack {
+            BackgroundView()
             VStack {
                 HStack {
                     Button(action: {
@@ -127,10 +129,10 @@ struct CartView: View {
             )
         }
         .fullScreenCover(isPresented: $showCheckoutView) {
-            CheckOutView(checkoutItems: addedToCarts, totalPriceToPay: totalAmountToPay)
+            CheckOutView(checkoutItems: addedToCarts, totalPriceToPay: totalAmountToPay, viewModel: viewModel)
         }
         .task {
-            DataPersistenceManager.shared.fetchCartItems { result in
+            DataPersistenceManager.shared.fetchCartItems(userId: viewModel.currentUser?.uid ?? "", completion: { result in
                 switch result {
                 case .success(let products):
                     self.addedToCarts = products
@@ -140,7 +142,7 @@ struct CartView: View {
                 case .failure(let failure):
                     print("failed to fetch products")
                 }
-            }
+            })
         }
     }
     
@@ -148,7 +150,7 @@ struct CartView: View {
         for index in offsets {
             if addedToCarts.count > 0 {
                 let product = addedToCarts[index]
-                DataPersistenceManager.shared.deleteCartItem(item: product) { result in
+                DataPersistenceManager.shared.deleteCartItem(userId: viewModel.currentUser?.uid ?? "", item: product) { result in
                     switch result {
                     case .success(let success):
                         print("item deleted")

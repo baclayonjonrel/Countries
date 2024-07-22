@@ -19,6 +19,12 @@ struct ContentView: View {
                 MainTabbedView(viewModel: loginViewModel)
             }
         }
+        .onAppear {
+            let user = loginViewModel.currentUser
+            print(user?.uid)
+            //email Optional("fxi8SHlFNrX665bU1F5NPElsYct1")
+            //test Optional("QRoWH2AJr5fw9JpBuwWOzT1XHAm1")
+        }
     }
 }
 

@@ -22,8 +22,7 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.blue, .clear]), startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
+            BackgroundView()
             VStack {
                 Text(isLogin ? "Login" : "Sign up")
                     .font(.custom("PlayfairDisplay-Bold", size: 35))

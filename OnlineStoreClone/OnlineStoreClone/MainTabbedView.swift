@@ -14,7 +14,7 @@ struct MainTabbedView: View {
         ZStack {
             TabView(selection: $selectedTab) {
                 NavigationStack {
-                    HomeView()
+                    HomeView(viewModel: viewModel)
                 }
                 .tabItem {
                     Image(systemName: "house")
@@ -22,7 +22,7 @@ struct MainTabbedView: View {
                 }
                 .tag(0)
                 NavigationStack {
-                    FavoriteView()
+                    FavoriteView(viewModel: viewModel)
                 }
                 .tabItem {
                     Image(systemName: "heart")

@@ -16,6 +16,9 @@
 		F77F8D182C4C67EE00C10F10 /* PriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77F8D172C4C67EE00C10F10 /* PriceFormatter.swift */; };
 		F77F8D1A2C4C6CA300C10F10 /* CheckOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77F8D192C4C6CA300C10F10 /* CheckOutView.swift */; };
 		F77F8D1C2C4C6CD700C10F10 /* PaymentGateWayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77F8D1B2C4C6CD700C10F10 /* PaymentGateWayController.swift */; };
+		F79651952C4E024B00FD77A1 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79651942C4E024B00FD77A1 /* BackgroundView.swift */; };
+		F79651982C4E0AA100FD77A1 /* EditProfilePicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79651972C4E0AA100FD77A1 /* EditProfilePicView.swift */; };
+		F796519A2C4E11E500FD77A1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F79651992C4E11E500FD77A1 /* FirebaseStorage */; };
 		F79C04722C4B7375000DFB62 /* OnlineStoreCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79C04712C4B7375000DFB62 /* OnlineStoreCloneApp.swift */; };
 		F79C04742C4B7375000DFB62 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79C04732C4B7375000DFB62 /* ContentView.swift */; };
 		F79C04762C4B7377000DFB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F79C04752C4B7377000DFB62 /* Assets.xcassets */; };
@@ -51,6 +54,8 @@
 		F77F8D172C4C67EE00C10F10 /* PriceFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatter.swift; sourceTree = "<group>"; };
 		F77F8D192C4C6CA300C10F10 /* CheckOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutView.swift; sourceTree = "<group>"; };
 		F77F8D1B2C4C6CD700C10F10 /* PaymentGateWayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentGateWayController.swift; path = ../../../../../../test/FireBaseTest/FireBaseTest/PaymentGateWayController.swift; sourceTree = "<group>"; };
+		F79651942C4E024B00FD77A1 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		F79651972C4E0AA100FD77A1 /* EditProfilePicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfilePicView.swift; sourceTree = "<group>"; };
 		F79C046E2C4B7375000DFB62 /* OnlineStoreClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnlineStoreClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F79C04712C4B7375000DFB62 /* OnlineStoreCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStoreCloneApp.swift; sourceTree = "<group>"; };
 		F79C04732C4B7375000DFB62 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -83,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F79C04992C4B7BF6000DFB62 /* SDWebImageSwiftUI in Frameworks */,
+				F796519A2C4E11E500FD77A1 /* FirebaseStorage in Frameworks */,
 				F7C04AB72C4DCC2400725AA0 /* FirebaseAuth in Frameworks */,
 				F77F8D152C4C60F000C10F10 /* Stripe in Frameworks */,
 			);
@@ -97,6 +103,14 @@
 				F77F8D172C4C67EE00C10F10 /* PriceFormatter.swift */,
 			);
 			path = Formatter;
+			sourceTree = "<group>";
+		};
+		F79651962C4E0A8200FD77A1 /* ProfileHandling */ = {
+			isa = PBXGroup;
+			children = (
+				F79651972C4E0AA100FD77A1 /* EditProfilePicView.swift */,
+			);
+			path = ProfileHandling;
 			sourceTree = "<group>";
 		};
 		F79C04652C4B7375000DFB62 = {
@@ -119,6 +133,7 @@
 		F79C04702C4B7375000DFB62 /* OnlineStoreClone */ = {
 			isa = PBXGroup;
 			children = (
+				F79651962C4E0A8200FD77A1 /* ProfileHandling */,
 				F7C04ABA2C4DCEBB00725AA0 /* Authentication */,
 				F77F8D162C4C67DF00C10F10 /* Formatter */,
 				F79C049A2C4B7DAF000DFB62 /* OtherView */,
@@ -196,6 +211,7 @@
 				F79C049B2C4B7DC3000DFB62 /* StarRatingView.swift */,
 				F77F8D0D2C4C56A400C10F10 /* ToolBarItems.swift */,
 				F77F8D192C4C6CA300C10F10 /* CheckOutView.swift */,
+				F79651942C4E024B00FD77A1 /* BackgroundView.swift */,
 			);
 			path = OtherView;
 			sourceTree = "<group>";
@@ -229,6 +245,7 @@
 				F79C04982C4B7BF6000DFB62 /* SDWebImageSwiftUI */,
 				F77F8D142C4C60F000C10F10 /* Stripe */,
 				F7C04AB62C4DCC2400725AA0 /* FirebaseAuth */,
+				F79651992C4E11E500FD77A1 /* FirebaseStorage */,
 			);
 			productName = OnlineStoreClone;
 			productReference = F79C046E2C4B7375000DFB62 /* OnlineStoreClone.app */;
@@ -294,6 +311,7 @@
 			files = (
 				F79C04742C4B7375000DFB62 /* ContentView.swift in Sources */,
 				F77F8D1C2C4C6CD700C10F10 /* PaymentGateWayController.swift in Sources */,
+				F79651952C4E024B00FD77A1 /* BackgroundView.swift in Sources */,
 				F77F8D1A2C4C6CA300C10F10 /* CheckOutView.swift in Sources */,
 				F79C048A2C4B73D0000DFB62 /* CartView.swift in Sources */,
 				F77F8D182C4C67EE00C10F10 /* PriceFormatter.swift in Sources */,
@@ -314,6 +332,7 @@
 				F79C04882C4B73C4000DFB62 /* ProfileView.swift in Sources */,
 				F79C04A32C4C415C000DFB62 /* DataPersistenceManager.swift in Sources */,
 				F79C04822C4B7397000DFB62 /* MainTabbedView.swift in Sources */,
+				F79651982C4E0AA100FD77A1 /* EditProfilePicView.swift in Sources */,
 				F77F8D0E2C4C56A400C10F10 /* ToolBarItems.swift in Sources */,
 				F77F8D112C4C60C900C10F10 /* PaymentConfig.swift in Sources */,
 				F79C04932C4B7834000DFB62 /* APICaller.swift in Sources */,
@@ -557,6 +576,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F77F8D132C4C60F000C10F10 /* XCRemoteSwiftPackageReference "stripe-ios" */;
 			productName = Stripe;
+		};
+		F79651992C4E11E500FD77A1 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7C04AB52C4DCC2400725AA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 		F79C04982C4B7BF6000DFB62 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
